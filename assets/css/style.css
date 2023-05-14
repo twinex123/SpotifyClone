@@ -611,5 +611,132 @@ body {
 }
 
 .current_time {
-    margin-top: 3px;
+    margin-top: 1px;
+}
+
+#song {
+    display: none;
+}
+
+.song_overlay {
+    height: 20vh;
+    margin-top: 25px;
+    width: 100%;
+    background-color: black;
+    opacity: .2;
+}
+
+.song_top {
+    margin-top: 85px;
+    display: flex;
+}
+.song_picture {
+    margin-left: 25px;
+}
+.song_picture img{
+    width: 75%;
+    border-radius: 3px;
+    -webkit-box-shadow: -2px 4px 61px 22px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 4px 61px 22px rgba(0,0,0,0.75);
+    box-shadow: -2px 4px 61px 22px rgba(0,0,0,0.75);
+}
+
+.song_actions {
+    display: flex;
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+.play_song {
+    width: 65px;
+    height: 65px;
+    border: none;
+    background-color: #1db954;
+    border-radius: 50%;
+    font-size: 2em;
+    color: black;
+}
+
+.play_song i {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.songs_icon {
+    margin-left: 15px;
+    border: none;
+    background-color: transparent;
+    margin-top: 10px;
+}
+.songs_icon img {
+    width: 150%;
+}
+
+.songs_icon:hover{
+    cursor: pointer;
+}
+
+.song_top_infos {
+    color: white;
+    margin-left: -20px;
+    margin-top: 80px;
+    font-family: "Gotham-Bold";
+}
+
+.song_top_title {
+    font-weight: 800;
+    font-size: 15px;
+}
+.song_top_artist {
+    font-size: 5px;
+}
+.song_top_artist span {
+    color: rgba(255,255,255,.2);
+}
+.song_top_type{
+    font-size: 1.1em;
+}
+
+.song_details {
+    position: absolute;
+    margin-top: 45px;
+    z-index: 200;
+}
+
+table {
+    width: 70vw;
+    background-color: transparent;
+    color: rgba(255,255,255,.25);
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.table_title {
+    color: white;
+}
+
+table thead{
+    margin-left: calc(-25px);
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
+
+tr {
+    text-align: left;
+}
+th {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+}
+
+.table_body_song:hover{
+    background-color: rgba(255,255,255,.2);
+    cursor: pointer;
+}
+table:hover{
+    
+    border-radius: 10px;
 }

@@ -144,7 +144,7 @@
         <div class="component_main">
             <div class="main_top">
                 <div class="arrows">
-                    <div class="arrow_left arrow">
+                    <div class="arrow_left arrow" id="back_arrow" onclick="showContent()">
                         <img src="assets/icons/left_arrow.svg" alt="Left Arrow">
                     </div>
                     <div class="arrow_right arrow">
@@ -164,7 +164,7 @@
                     </div>
                 </div>
             </div>
-            <div class="content">
+            <div class="content" id="content">
                 <div class="titles_main">
                     <h1>Écoutés récemments</h1>
                     <div class="title_right">
@@ -185,7 +185,7 @@
                             <h4>Eminem</h4>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" onclick="showCard()">
                         <div class="img_card" style="background-image: url('assets/img/songs/russ.png');">
 
                         </div>
@@ -359,7 +359,71 @@
                 </div>
                 
             </div>
+            <div id="song">
+
+                <div class="song_top">
+                    <div class="song_picture">
+                        <img src="assets/img/songs/russ.png" alt="Russ Millions image">
+                    </div>
+
+                    <div class="song_top_infos">
+                        <div class="song_top_type">
+                            <h6>Single</h6>
+                        </div>
+                        <div class="song_top_title">
+                            <h1>Dancer (feat. Noizy, Rondodasosa & Capo Plaza)</h1>
+                        </div>
+                        <div class="song_top_artist">
+                            <h1><strong>Russ Millions • Noizy • Rondodasosa • 2023</strong><span> • 3 min 11s </span></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="song_actions">
+                    <button class="play_song">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+
+                    <button class="songs_icon">
+                        <img src="assets/icons/heart_icon.svg" alt="Heart icon">
+                    </button>
+
+                    <button class="songs_icon">
+                        <img src="assets/icons/download_icon.svg" alt="Download icon">
+                    </button>
+                </div>
+
+                <div class="song_details">
+                <table>
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>Titre</th>
+                        <th>Lectures</th>
+                        <th><i class="fa-regular fa-clock"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table_body_song">
+                        <td>1</td>
+                        <td class="table_title">Dancer (feat. Noisy, Rondodasosa & Capo Plaza)<br><strong>Russ Millions • Noizy • Rondodasosa • 2023</strong><span> • 3 min 11s </span></td>
+                        <td>4 564 565</td>
+                        <td>3:11</td>
+                        </tr>
+                    </tbody>
+                    </table>
+
+                </div>
+
+                <div class="song_overlay">
+                    
+                </div>
+
+            </div>
         </div>
+
+        
+    
     </div>
     <div class="listeningBar">
         <div class="listeningLeft">
@@ -476,21 +540,20 @@
             }
         })
 
-        // Sélectionner les éléments HTML pertinents
         const audioPlayer = document.querySelector('.listeningActions');
         const audioElement = new Audio('assets/songs/night_away.mp3');
         const progressBar = document.querySelector('.progress_line');
         const currentTime = document.querySelector('.current_time');
         const totalTime = document.querySelector('.total_time');
-        const playButton = audioPlayer.querySelector('.action_play');
+        const playButton = document.querySelector('.action_play');
+        const progress_round = document.querySelector('.progress_round');
+        const progress = document.querySelector('.progress_bar');
 
-        // Mettre à jour la durée totale du son
         audioElement.addEventListener('loadedmetadata', () => {
         const duration = audioElement.duration;
         totalTime.textContent = formatTime(duration);
         });
 
-        // Mettre à jour l'endroit où on en est et la largeur de la barre de progression
         audioElement.addEventListener('timeupdate', () => {
         const currentTimeValue = audioElement.currentTime;
         const duration = audioElement.duration;
@@ -498,9 +561,10 @@
 
         currentTime.textContent = formatTime(currentTimeValue);
         progressBar.style.width = `${progressPercent}%`;
+        var progressPixel = progressPercent * 4.6	
+        progress_round.style.marginLeft = `${progressPixel}px`;
         });
 
-        // Gérer le clic sur le bouton de lecture
         playButton.addEventListener('click', () => {
         if (audioElement.paused) {
             audioElement.play();
@@ -513,12 +577,73 @@
         }
         });
 
+        var second_playButton = document.querySelector('.play_song');
+
+        second_playButton.addEventListener('click', () => {
+        if (audioElement.paused) {
+            audioElement.play();
+            second_playButton.classList.add('playing');
+            document.querySelector("#listening_icon").src = "assets/icons/pause_icon.svg"
+            second_playButton.innerHTML = "<i class='fa-solid fa-pause' style='margin-left: calc(-2px);'></i>";
+        } else {
+            audioElement.pause();
+            second_playButton.classList.remove('playing');
+            document.querySelector("#listening_icon").src = "assets/icons/play_icon.svg"
+            second_playButton.innerHTML = "<i class='fa-solid fa-play'></i>";
+        }
+        });
+
         // Formatage du temps en format mm:ss
         function formatTime(time) {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
+        
+        
+        progress.addEventListener('click', (event) => {
+            const clickX = event.clientX - progress.getBoundingClientRect().left;
+            const progressBarWidth = progress.offsetWidth;
+            const progressPercent = (clickX / progressBarWidth) * 100;
+            const duration = audioElement.duration;
+            const currentTimeValue = (duration * progressPercent) / 100;
+
+            audioElement.currentTime = currentTimeValue;
+        });
+
+        audioElement.addEventListener('ended', () => {
+            audioElement.currentTime = 0; 
+            audioElement.play(); 
+        });
+
+        const soundProgressBar = document.querySelector('.sound_progress_bar');
+
+        
+        soundProgressBar.addEventListener('click', (event) => {
+            const clickX = event.clientX - soundProgressBar.getBoundingClientRect().left;
+            const progressBarWidth = soundProgressBar.offsetWidth;
+            const volumeLevel = clickX / progressBarWidth;
+
+            const audioElement = new Audio();
+            audioElement.volume = volumeLevel;
+        });
+
+        
+        var content = document.getElementById('content');
+        var SONG = document.getElementById('song');
+
+        function showCard(){
+            SONG.style.display = 'block';
+            content.style.display = 'none';
+            // component.style.background = "rgb(33,147,194)";
+            document.querySelector('.component_main').style.background = "linear-gradient(180deg, rgba(57,145,151,1) 0%, rgba(33,92,97,1) 36%, rgba(0,0,0,1) 75%)";
+        }
+        function showContent(){
+            SONG.style.display = "none";
+            content.style.display = "block";
+            document.querySelector('.component_main').style.background = "linear-gradient(180deg, rgba(28,28,31,1) 0%, rgba(255,255,255,.1) 5%, rgba(255,255,255,.055) 21%)";
+        }
+
 
 
     </script>
